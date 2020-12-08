@@ -1,8 +1,14 @@
+import time
+
+
 def guess_we_are_bruteforcing_this(instructions):
     all_the_inputs = create_all_possible_changed_inputs(instructions)
 
+    last_run = False
     for changed_input in all_the_inputs:
-        run(changed_input, False)
+        if last_run:
+            break
+        last_run = run(changed_input, False)
 
 
 def create_all_possible_changed_inputs(instructions):
@@ -35,12 +41,12 @@ def run(instructions, is_first_part: bool):
             if is_first_part:
                 print(cache)
             not_done = False
-            continue
+            return False
 
         if idx >= len(instructions):
             print("Finished " + str(cache))
             not_done = False
-            continue
+            return True
 
         executed_ops.append(idx)
 
@@ -72,6 +78,7 @@ def deconstruct_instruction(instruction):
 
 
 def day_8():
+    start = time.time()
     with open('input', 'r') as f:
         instructions = f.readlines()
 
@@ -80,7 +87,9 @@ def day_8():
 
     print("Part 2: ")
     guess_we_are_bruteforcing_this(instructions)
-
+    end = time.time()
+    print(end - start)
+    
 
 if __name__ == '__main__':
     day_8()
